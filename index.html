@@ -3,68 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subject Question Bank</title>
+    <title>Academic Question Bank</title>
     <style>
         :root {
             --primary: #2c3e50;
             --secondary: #3498db;
+            --accent: #27ae60;
             --light: #ecf0f1;
         }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f8f9fa; margin: 0; padding: 20px; }
-        .container { max-width: 900px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; margin: 0; padding: 20px; }
+        .container { max-width: 1000px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         
-        h1 { text-align: center; color: var(--primary); }
+        h1 { text-align: center; color: var(--primary); margin-bottom: 30px; }
         
         /* Tab Styling */
-        .tabs { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 30px; border-bottom: 2px solid var(--light); padding-bottom: 20px; }
-        .tab-btn { padding: 12px 20px; border: none; background: var(--light); color: var(--primary); cursor: pointer; border-radius: 5px; font-weight: bold; transition: 0.3s; }
-        .tab-btn.active { background: var(--secondary); color: white; }
-        .tab-btn:hover { background: #d5dbdb; }
+        .tabs { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid var(--light); }
+        .tab-btn { padding: 12px 18px; border: none; background: var(--light); color: var(--primary); cursor: pointer; border-radius: 8px; font-weight: 600; transition: all 0.3s ease; font-size: 14px; }
+        .tab-btn.active { background: var(--secondary); color: white; transform: translateY(-2px); }
+        .tab-btn:hover { background: #dfe6e9; }
 
         /* Content Area */
-        .subject-content { display: none; animation: fadeIn 0.5s; }
+        .subject-content { display: none; animation: slideUp 0.4s ease-out; }
         .subject-content.active { display: block; }
         
-        .pdf-link { display: inline-block; margin-top: 15px; padding: 10px 15px; background: #e74c3c; color: white; text-decoration: none; border-radius: 5px; font-size: 0.9em; }
-        .pdf-link:hover { background: #c0392b; }
+        .card { border: 1px solid #eee; padding: 20px; border-radius: 10px; background: #fafafa; }
+        h2 { color: var(--secondary); margin-top: 0; }
+        
+        .pdf-link { display: inline-flex; align-items: center; margin-top: 20px; padding: 12px 25px; background: var(--accent); color: white; text-decoration: none; border-radius: 30px; font-weight: bold; transition: 0.3s; }
+        .pdf-link:hover { background: #219150; box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3); }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Academic Question Bank</h1>
+    <h1>Subject Question Banks</h1>
 
     <div class="tabs">
         <button class="tab-btn active" onclick="openSubject(event, 'finance')">Business Finance</button>
         <button class="tab-btn" onclick="openSubject(event, 'working-capital')">Working Capital</button>
-        <button class="tab-btn" onclick="openSubject(event, 'industrial')">Industrial Relations</button>
+        <button class="tab-btn" onclick="openSubject(event, 'industrial')">Employment Laws</button>
         <button class="tab-btn" onclick="openSubject(event, 'ecommerce')">E-Commerce</button>
+        <button class="tab-btn" onclick="openSubject(event, 'investment')">Investment Mgt</button>
     </div>
 
     <div id="finance" class="subject-content active">
-        <h2>Basic Business Finance</h2>
-        <p>Contains question banks covering Capital Budgeting, Cost of Capital, and Financial Analysis.</p>
-        <a href="YOUR_LINK_HERE" class="pdf-link" target="_blank">📄 View Question Bank (PDF)</a>
+        <div class="card">
+            <h2>Basic Business Finance</h2>
+            <p>Study materials for Capital Structure, Leverage, and Dividend Decisions.</p>
+            <a href="LINK_FOR_FINANCE_PDF" class="pdf-link" target="_blank">View Finance PDF</a>
+        </div>
     </div>
 
     <div id="working-capital" class="subject-content">
-        <h2>Working Capital Management</h2>
-        <p>Explore resources on Cash Management, Inventory Control, and Receivables.</p>
-        <a href="YOUR_LINK_HERE" class="pdf-link" target="_blank">📄 View Question Bank (PDF)</a>
+        <div class="card">
+            <h2>Working Capital Management</h2>
+            <p>Questions regarding Operating Cycles, Cash Management, and Financing Policies.</p>
+            <a href="LINK_FOR_WC_PDF" class="pdf-link" target="_blank">View Working Capital PDF</a>
+        </div>
     </div>
 
     <div id="industrial" class="subject-content">
-        <h2>Industrial Relation & Employment Laws</h2>
-        <p>Materials regarding Labor Laws, Trade Unions, and Collective Bargaining.</p>
-        <a href="YOUR_LINK_HERE" class="pdf-link" target="_blank">📄 View Question Bank (PDF)</a>
+        <div class="card">
+            <h2>Industrial Relation & Employment Laws</h2>
+            <p>Comprehensive bank for Labor Acts, Industrial Disputes, and Safety Regulations.</p>
+            <a href="LINK_FOR_LAWS_PDF" class="pdf-link" target="_blank">View Laws PDF</a>
+        </div>
     </div>
 
     <div id="ecommerce" class="subject-content">
-        <h2>E-Commerce</h2>
-        <p>Question banks on B2B/B2C frameworks, Digital Payments, and Cybersecurity.</p>
-        <a href="YOUR_LINK_HERE" class="pdf-link" target="_blank">📄 View Question Bank (PDF)</a>
+        <div class="card">
+            <h2>E-Commerce</h2>
+            <p>Resources on Digital Marketing, Payment Gateways, and Electronic Data Interchange.</p>
+            <a href="LINK_FOR_ECOMM_PDF" class="pdf-link" target="_blank">View E-Commerce PDF</a>
+        </div>
+    </div>
+
+    <div id="investment" class="subject-content">
+        <div class="card">
+            <h2>Investment Management</h2>
+            <p>Question banks on Portfolio Management, Risk-Return Analysis, and Mutual Funds.</p>
+            <a href="LINK_FOR_INVESTMENT_PDF" class="pdf-link" target="_blank">View Investment PDF</a>
+        </div>
     </div>
 </div>
 
@@ -72,19 +93,16 @@
     function openSubject(evt, subjectName) {
         var i, content, tablinks;
         
-        // Hide all content
         content = document.getElementsByClassName("subject-content");
         for (i = 0; i < content.length; i++) {
             content[i].classList.remove("active");
         }
 
-        // Deactivate all buttons
         tablinks = document.getElementsByClassName("tab-btn");
         for (i = 0; i < tablinks.length; i++) {
             tablinks[i].classList.remove("active");
         }
 
-        // Show current subject and mark button as active
         document.getElementById(subjectName).classList.add("active");
         evt.currentTarget.classList.add("active");
     }
