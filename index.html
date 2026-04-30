@@ -8,143 +8,137 @@
         :root {
             --primary: #2c3e50;
             --secondary: #3498db;
-            --question-btn: #e67e22;
-            --answer-btn: #27ae60;
-            --light: #f4f7f6;
+            --q-color: #e67e22;
+            --a-color: #27ae60;
+            --bg: #f8f9fa;
         }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--light); margin: 0; padding: 20px; }
-        .container { max-width: 900px; margin: auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 15px; }
+        .container { max-width: 1100px; margin: auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 25px rgba(0,0,0,0.1); min-height: 95vh; }
         
-        h1 { text-align: center; color: var(--primary); font-size: 2.5rem; margin-bottom: 10px; }
-        .subtitle { text-align: center; color: #7f8c8d; margin-bottom: 40px; font-style: italic; }
-        
-        /* Navigation Tabs */
-        .tabs { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 40px; border-bottom: 2px solid #eee; padding-bottom: 20px; }
-        .tab-btn { padding: 12px 20px; border: none; background: #dfe6e9; color: var(--primary); cursor: pointer; border-radius: 8px; font-weight: bold; transition: 0.3s; }
-        .tab-btn.active { background: var(--secondary); color: white; transform: translateY(-3px); }
-        .tab-btn:hover:not(.active) { background: #d1d8e0; }
+        h1 { text-align: center; color: var(--primary); }
 
-        /* Subject Content Area */
-        .subject-content { display: none; animation: fadeIn 0.5s ease; }
+        /* Navigation Tabs */
+        .tabs { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 25px; border-bottom: 2px solid #eee; padding-bottom: 15px; }
+        .tab-btn { padding: 10px 15px; border: none; background: #dfe6e9; color: var(--primary); cursor: pointer; border-radius: 6px; font-weight: bold; transition: 0.3s; }
+        .tab-btn.active { background: var(--secondary); color: white; }
+
+        /* Content Sections */
+        .subject-content { display: none; text-align: center; animation: fadeIn 0.4s; }
         .subject-content.active { display: block; }
         
-        .card-title { text-align: center; color: var(--primary); margin-bottom: 25px; font-size: 1.5rem; }
+        .type-toggle { display: flex; gap: 15px; justify-content: center; margin-bottom: 20px; }
+        .type-btn { padding: 10px 20px; border: 2px solid #ddd; background: white; border-radius: 25px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .type-btn.active.q { border-color: var(--q-color); color: var(--q-color); }
+        .type-btn.active.a { border-color: var(--a-color); color: var(--a-color); }
 
-        /* Question and Answer Options */
-        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .option-card { background: #fafafa; padding: 30px; border-radius: 12px; border: 1px solid #eee; text-align: center; transition: 0.3s; }
-        .option-card:hover { border-color: var(--secondary); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        
-        .btn { display: inline-block; padding: 15px 30px; margin-top: 15px; border-radius: 30px; color: white; text-decoration: none; font-weight: bold; transition: 0.3s; width: 80%; }
-        .q-link { background: var(--question-btn); }
-        .q-link:hover { background: #d35400; transform: scale(1.05); }
-        .a-link { background: var(--answer-btn); }
-        .a-link:hover { background: #219150; transform: scale(1.05); }
+        /* Unit Grid */
+        .unit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin: 20px auto; max-width: 800px; }
+        .unit-btn { padding: 12px; border: 1px solid #ddd; background: #fff; border-radius: 8px; cursor: pointer; transition: 0.2s; font-weight: 500; }
+        .unit-btn:hover { background: var(--secondary); color: white; border-color: var(--secondary); }
+
+        /* Viewer */
+        .viewer-container { width: 100%; height: 750px; border: 2px solid #ddd; border-radius: 10px; background: #fff; display: none; margin-top: 20px; }
+        iframe { width: 100%; height: 100%; border: none; }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @media (max-width: 650px) { .options-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Question & Answer Bank</h1>
-    <p class="subtitle">Academic resources for Business and Finance students</p>
+    <h1>Academic Resource Portal</h1>
 
-    <div class="tabs">
-        <button class="tab-btn active" onclick="openSubject(event, 'finance')">Business Finance</button>
-        <button class="tab-btn" onclick="openSubject(event, 'working')">Working Capital</button>
-        <button class="tab-btn" onclick="openSubject(event, 'laws')">Industrial Relations</button>
-        <button class="tab-btn" onclick="openSubject(event, 'ecomm')">E-Commerce</button>
-        <button class="tab-btn" onclick="openSubject(event, 'invest')">Investment Mgt</button>
+    <div class="tabs" id="subjectTabs">
+        <button class="tab-btn active" onclick="switchSubject(this, 'finance')">Business Finance</button>
+        <button class="tab-btn" onclick="switchSubject(this, 'working')">Working Capital</button>
+        <button class="tab-btn" onclick="switchSubject(this, 'laws')">Industrial Relations</button>
+        <button class="tab-btn" onclick="switchSubject(this, 'ecomm')">E-Commerce</button>
+        <button class="tab-btn" onclick="switchSubject(this, 'invest')">Investment Mgt</button>
     </div>
 
-    <div id="finance" class="subject-content active">
-        <h2 class="card-title">Basic Business Finance</h2>
-        <div class="options-grid">
-            <div class="option-card">
-                <h3>Question Bank</h3>
-                <a href="https://drive.google.com/drive/folders/1UymdWOoAHfwxBc7NkAO-NFUJfM-32tnl" class="btn q-link" target="_blank">Access Questions</a>
-            </div>
-            <div class="option-card">
-                <h3>Solutions</h3>
-                <a href="https://drive.google.com/drive/folders/1UymdWOoAHfwxBc7NkAO-NFUJfM-32tnl" class="btn a-link" target="_blank">Access Answers</a>
-            </div>
-        </div>
+    <div class="type-toggle">
+        <button class="type-btn q active" onclick="switchType('Q')">Questions</button>
+        <button class="type-btn a" onclick="switchType('A')">Answers</button>
     </div>
 
-    <div id="working" class="subject-content">
-        <h2 class="card-title">Working Capital Management</h2>
-        <div class="options-grid">
-            <div class="option-card">
-                <h3>Question Bank</h3>
-                <a href="https://drive.google.com/drive/folders/1QyFOM4rYTWH94wZ_mWnmtQ112UZIqpKB" class="btn q-link" target="_blank">Access Questions</a>
+    <hr>
+
+    <div id="unitDisplay">
+        <h3 id="currentSelectionTitle">Business Finance - Questions</h3>
+        <div class="unit-grid" id="unitGrid">
             </div>
-            <div class="option-card">
-                <h3>Solutions</h3>
-                <a href="https://drive.google.com/drive/folders/1QyFOM4rYTWH94wZ_mWnmtQ112UZIqpKB" class="btn a-link" target="_blank">Access Answers</a>
-            </div>
-        </div>
     </div>
 
-    <div id="laws" class="subject-content">
-        <h2 class="card-title">Industrial Relation & Employment Laws</h2>
-        <div class="options-grid">
-            <div class="option-card">
-                <h3>Question Bank</h3>
-                <a href="https://drive.google.com/drive/folders/1qCM-lyDY-8npRKpLc0Dx7Y4XofrqJp2Z" class="btn q-link" target="_blank">Access Questions</a>
-            </div>
-            <div class="option-card">
-                <h3>Solutions</h3>
-                <a href="https://drive.google.com/drive/folders/1qCM-lyDY-8npRKpLc0Dx7Y4XofrqJp2Z" class="btn a-link" target="_blank">Access Answers</a>
-            </div>
-        </div>
+    <div id="viewerBox" class="viewer-container">
+        <iframe id="pdfFrame" src=""></iframe>
     </div>
-
-    <div id="ecomm" class="subject-content">
-        <h2 class="card-title">E-Commerce</h2>
-        <div class="options-grid">
-            <div class="option-card">
-                <h3>Question Bank</h3>
-                <a href="https://drive.google.com/drive/folders/1uYVBCewifuaRdO34c6SZz1hcx0JXseIL" class="btn q-link" target="_blank">Access Questions</a>
-            </div>
-            <div class="option-card">
-                <h3>Solutions</h3>
-                <a href="https://drive.google.com/drive/folders/1uYVBCewifuaRdO34c6SZz1hcx0JXseIL" class="btn a-link" target="_blank">Access Answers</a>
-            </div>
-        </div>
-    </div>
-
-    <div id="invest" class="subject-content">
-        <h2 class="card-title">Investment Management</h2>
-        <div class="options-grid">
-            <div class="option-card">
-                <h3>Question Bank</h3>
-                <a href="https://drive.google.com/drive/folders/12y_b06cZor3h6812eAMa-_Vt0VBuz9Lt" class="btn q-link" target="_blank">Access Questions</a>
-            </div>
-            <div class="option-card">
-                <h3>Solutions</h3>
-                <a href="https://drive.google.com/drive/folders/12y_b06cZor3h6812eAMa-_Vt0VBuz9Lt" class="btn a-link" target="_blank">Access Answers</a>
-            </div>
-        </div>
-    </div>
-
 </div>
 
 <script>
-    function openSubject(evt, subjectName) {
-        var i, content, tablinks;
-        content = document.getElementsByClassName("subject-content");
-        for (i = 0; i < content.length; i++) {
-            content[i].classList.remove("active");
-        }
-        tablinks = document.getElementsByClassName("tab-btn");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].classList.remove("active");
-        }
-        document.getElementById(subjectName).classList.add("active");
-        evt.currentTarget.classList.add("active");
+    let currentSubject = 'finance';
+    let currentType = 'Q';
+
+    const unitConfig = {
+        'finance': { name: 'Business Finance', units: 5 },
+        'working': { name: 'Working Capital', units: 5 },
+        'laws': { name: 'Industrial Relations', units: 4 },
+        'ecomm': { name: 'E-Commerce', units: 1 },
+        'invest': { name: 'Investment Mgt', units: 1 }
+    };
+
+    function switchSubject(btn, subKey) {
+        currentSubject = subKey;
+        // Update UI
+        document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+        renderUnits();
     }
+
+    function switchType(type) {
+        currentType = type;
+        // Update UI
+        document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+        document.querySelector(`.type-btn.${type.toLowerCase()}`).classList.add('active');
+        renderUnits();
+    }
+
+    function renderUnits() {
+        const grid = document.getElementById('unitGrid');
+        const title = document.getElementById('currentSelectionTitle');
+        const viewer = document.getElementById('viewerBox');
+        
+        viewer.style.display = 'none'; // Hide viewer when changing
+        grid.innerHTML = '';
+        
+        const config = unitConfig[currentSubject];
+        const typeText = currentType === 'Q' ? 'Questions' : 'Answers';
+        title.innerText = `${config.name} - ${typeText}`;
+
+        for (let i = 1; i <= config.units; i++) {
+            const btn = document.createElement('button');
+            btn.className = 'unit-btn';
+            btn.innerText = `Unit ${i}`;
+            // This is where you would map your specific Google Drive IDs
+            btn.onclick = () => loadPDF(currentSubject, currentType, i);
+            grid.appendChild(btn);
+        }
+    }
+
+    function loadPDF(subject, type, unit) {
+        const viewer = document.getElementById('viewerBox');
+        const frame = document.getElementById('pdfFrame');
+        
+        // Logical naming for your IDs
+        // You will need to create a mapping object here with your real File IDs
+        const fileId = "PASTE_YOUR_FILE_ID_HERE"; 
+        
+        frame.src = `https://drive.google.com/file/d/${fileId}/preview`;
+        viewer.style.display = 'block';
+        viewer.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Initialize the first view
+    renderUnits();
 </script>
 
 </body>
