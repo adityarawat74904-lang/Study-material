@@ -8,58 +8,128 @@
         :root {
             --primary: #2c3e50;
             --secondary: #3498db;
-            --question-color: #e67e22;
-            --answer-color: #27ae60;
+            --question-btn: #e67e22;
+            --answer-btn: #27ae60;
             --light: #f4f7f6;
         }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--light); margin: 0; padding: 20px; }
-        .container { max-width: 1000px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--light); margin: 0; padding: 20px; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         
-        h1 { text-align: center; color: var(--primary); margin-bottom: 30px; }
+        h1 { text-align: center; color: var(--primary); font-size: 2.5rem; margin-bottom: 10px; }
+        .subtitle { text-align: center; color: #7f8c8d; margin-bottom: 40px; font-style: italic; }
         
-        .tabs { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 30px; }
+        /* Navigation Tabs */
+        .tabs { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 40px; border-bottom: 2px solid #eee; padding-bottom: 20px; }
         .tab-btn { padding: 12px 20px; border: none; background: #dfe6e9; color: var(--primary); cursor: pointer; border-radius: 8px; font-weight: bold; transition: 0.3s; }
-        .tab-btn.active { background: var(--secondary); color: white; }
+        .tab-btn.active { background: var(--secondary); color: white; transform: translateY(-3px); }
+        .tab-btn:hover:not(.active) { background: #d1d8e0; }
 
-        .subject-content { display: none; }
+        /* Subject Content Area */
+        .subject-content { display: none; animation: fadeIn 0.5s ease; }
         .subject-content.active { display: block; }
         
-        .button-group { display: flex; gap: 20px; justify-content: center; margin-bottom: 20px; }
-        .view-btn { padding: 10px 25px; border: none; border-radius: 5px; color: white; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        .q-btn { background: var(--question-color); }
-        .a-btn { background: var(--answer-color); }
+        .card-title { text-align: center; color: var(--primary); margin-bottom: 25px; font-size: 1.5rem; }
 
-        /* The Embed Viewer Styling */
-        .viewer-container { width: 100%; height: 600px; border: 2px solid #ddd; border-radius: 10px; overflow: hidden; background: #eee; display: none; }
-        iframe { width: 100%; height: 100%; border: none; }
+        /* Question and Answer Options */
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .option-card { background: #fafafa; padding: 30px; border-radius: 12px; border: 1px solid #eee; text-align: center; transition: 0.3s; }
+        .option-card:hover { border-color: var(--secondary); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         
-        .placeholder-text { text-align: center; color: #7f8c8d; margin-top: 50px; }
+        .btn { display: inline-block; padding: 15px 30px; margin-top: 15px; border-radius: 30px; color: white; text-decoration: none; font-weight: bold; transition: 0.3s; width: 80%; }
+        .q-link { background: var(--question-btn); }
+        .q-link:hover { background: #d35400; transform: scale(1.05); }
+        .a-link { background: var(--answer-btn); }
+        .a-link:hover { background: #219150; transform: scale(1.05); }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @media (max-width: 650px) { .options-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h1>Question & Answer Bank</h1>
+    <p class="subtitle">Academic resources for Business and Finance students</p>
 
     <div class="tabs">
         <button class="tab-btn active" onclick="openSubject(event, 'finance')">Business Finance</button>
         <button class="tab-btn" onclick="openSubject(event, 'working')">Working Capital</button>
-        <button class="tab-btn" onclick="openSubject(event, 'laws')">Employment Laws</button>
-        <button class="tab-btn" onclick="event, openSubject(event, 'ecomm')">E-Commerce</button>
-        <button class="tab-btn" onclick="event, openSubject(event, 'invest')">Investment Mgt</button>
+        <button class="tab-btn" onclick="openSubject(event, 'laws')">Industrial Relations</button>
+        <button class="tab-btn" onclick="openSubject(event, 'ecomm')">E-Commerce</button>
+        <button class="tab-btn" onclick="openSubject(event, 'invest')">Investment Mgt</button>
     </div>
 
     <div id="finance" class="subject-content active">
-        <div class="button-group">
-            <button class="view-btn q-btn" onclick="loadPDF('finance-viewer', 'YOUR_QUESTION_FILE_ID')">View Questions</button>
-            <button class="view-btn a-btn" onclick="loadPDF('finance-viewer', 'YOUR_ANSWER_FILE_ID')">View Answers</button>
-        </div>
-        <div id="finance-viewer" class="viewer-container">
-            <iframe src=""></iframe>
+        <h2 class="card-title">Basic Business Finance</h2>
+        <div class="options-grid">
+            <div class="option-card">
+                <h3>Question Bank</h3>
+                <a href="https://drive.google.com/drive/folders/1UymdWOoAHfwxBc7NkAO-NFUJfM-32tnl" class="btn q-link" target="_blank">Access Questions</a>
+            </div>
+            <div class="option-card">
+                <h3>Solutions</h3>
+                <a href="https://drive.google.com/drive/folders/1UymdWOoAHfwxBc7NkAO-NFUJfM-32tnl" class="btn a-link" target="_blank">Access Answers</a>
+            </div>
         </div>
     </div>
 
+    <div id="working" class="subject-content">
+        <h2 class="card-title">Working Capital Management</h2>
+        <div class="options-grid">
+            <div class="option-card">
+                <h3>Question Bank</h3>
+                <a href="https://drive.google.com/drive/folders/1QyFOM4rYTWH94wZ_mWnmtQ112UZIqpKB" class="btn q-link" target="_blank">Access Questions</a>
+            </div>
+            <div class="option-card">
+                <h3>Solutions</h3>
+                <a href="https://drive.google.com/drive/folders/1QyFOM4rYTWH94wZ_mWnmtQ112UZIqpKB" class="btn a-link" target="_blank">Access Answers</a>
+            </div>
+        </div>
     </div>
+
+    <div id="laws" class="subject-content">
+        <h2 class="card-title">Industrial Relation & Employment Laws</h2>
+        <div class="options-grid">
+            <div class="option-card">
+                <h3>Question Bank</h3>
+                <a href="https://drive.google.com/drive/folders/1qCM-lyDY-8npRKpLc0Dx7Y4XofrqJp2Z" class="btn q-link" target="_blank">Access Questions</a>
+            </div>
+            <div class="option-card">
+                <h3>Solutions</h3>
+                <a href="https://drive.google.com/drive/folders/1qCM-lyDY-8npRKpLc0Dx7Y4XofrqJp2Z" class="btn a-link" target="_blank">Access Answers</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="ecomm" class="subject-content">
+        <h2 class="card-title">E-Commerce</h2>
+        <div class="options-grid">
+            <div class="option-card">
+                <h3>Question Bank</h3>
+                <a href="https://drive.google.com/drive/folders/1uYVBCewifuaRdO34c6SZz1hcx0JXseIL" class="btn q-link" target="_blank">Access Questions</a>
+            </div>
+            <div class="option-card">
+                <h3>Solutions</h3>
+                <a href="https://drive.google.com/drive/folders/1uYVBCewifuaRdO34c6SZz1hcx0JXseIL" class="btn a-link" target="_blank">Access Answers</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="invest" class="subject-content">
+        <h2 class="card-title">Investment Management</h2>
+        <div class="options-grid">
+            <div class="option-card">
+                <h3>Question Bank</h3>
+                <a href="https://drive.google.com/drive/folders/12y_b06cZor3h6812eAMa-_Vt0VBuz9Lt" class="btn q-link" target="_blank">Access Questions</a>
+            </div>
+            <div class="option-card">
+                <h3>Solutions</h3>
+                <a href="https://drive.google.com/drive/folders/12y_b06cZor3h6812eAMa-_Vt0VBuz9Lt" class="btn a-link" target="_blank">Access Answers</a>
+            </div>
+        </div>
+    </div>
+
+</div>
 
 <script>
     function openSubject(evt, subjectName) {
@@ -74,17 +144,6 @@
         }
         document.getElementById(subjectName).classList.add("active");
         evt.currentTarget.classList.add("active");
-    }
-
-    function loadPDF(containerId, fileId) {
-        const container = document.getElementById(containerId);
-        const iframe = container.querySelector('iframe');
-        
-        // This URL format allows embedding
-        const embedUrl = `https://drive.google.com/file/d/${fileId}/preview`;
-        
-        iframe.src = embedUrl;
-        container.style.display = 'block';
     }
 </script>
 
