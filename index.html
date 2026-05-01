@@ -3,142 +3,193 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Academic Resource Portal</title>
+    <title>PrepMaster | Academic Question Bank</title>
     <style>
         :root {
-            --primary: #2c3e50;
-            --secondary: #3498db;
-            --q-color: #e67e22;
-            --a-color: #27ae60;
-            --bg: #f8f9fa;
+            --primary: #2563eb;
+            --secondary: #3b82f6;
+            --v-short: #8b5cf6; /* 2 Marks */
+            --short: #f59e0b;   /* 5 Marks */
+            --long: #ef4444;    /* 10 Marks */
+            --bg: #f1f5f9;
+            --text: #1e293b;
         }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 15px; }
-        .container { max-width: 1100px; margin: auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 25px rgba(0,0,0,0.1); min-height: 95vh; }
+
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; line-height: 1.6; }
+        .container { max-width: 1000px; margin: 40px auto; padding: 20px; }
+
+        /* Header */
+        header { text-align: center; margin-bottom: 40px; }
+        h1 { font-size: 2.5rem; color: #0f172a; margin-bottom: 10px; }
+        .badge { background: var(--primary); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; }
+
+        /* Subject Navigation */
+        .tabs { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 30px; }
+        .tab-btn { padding: 12px 24px; border: none; background: white; color: var(--text); cursor: pointer; border-radius: 12px; font-weight: 600; box-shadow: 0 2px 4px rgba(0,0,0,0.05); transition: 0.3s; }
+        .tab-btn.active { background: var(--primary); color: white; transform: translateY(-2px); }
+
+        /* Unit Selection */
+        .unit-nav { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; }
+        .unit-dot { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #cbd5e1; background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; transition: 0.3s; }
+        .unit-dot.active { background: var(--secondary); color: white; border-color: var(--secondary); }
+
+        /* Question Categories */
+        .category-container { display: grid; grid-template-columns: 1fr; gap: 20px; animation: slideUp 0.4s ease; }
         
-        h1 { text-align: center; color: var(--primary); }
+        .cat-section { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .cat-header { padding: 15px 20px; color: white; font-weight: bold; display: flex; justify-content: space-between; }
+        .v-short-bg { background: var(--v-short); }
+        .short-bg { background: var(--short); }
+        .long-bg { background: var(--long); }
 
-        /* Navigation Tabs */
-        .tabs { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 25px; border-bottom: 2px solid #eee; padding-bottom: 15px; }
-        .tab-btn { padding: 10px 15px; border: none; background: #dfe6e9; color: var(--primary); cursor: pointer; border-radius: 6px; font-weight: bold; transition: 0.3s; }
-        .tab-btn.active { background: var(--secondary); color: white; }
+        /* Collapsible Questions */
+        details { border-bottom: 1px solid #f1f5f9; }
+        summary { padding: 15px 20px; cursor: pointer; font-weight: 500; list-style: none; display: flex; justify-content: space-between; }
+        summary::after { content: '＋'; color: #94a3b8; }
+        details[open] summary::after { content: '－'; }
+        details[open] { background: #fafafa; }
 
-        /* Content Sections */
-        .subject-content { display: none; text-align: center; animation: fadeIn 0.4s; }
-        .subject-content.active { display: block; }
-        
-        .type-toggle { display: flex; gap: 15px; justify-content: center; margin-bottom: 20px; }
-        .type-btn { padding: 10px 20px; border: 2px solid #ddd; background: white; border-radius: 25px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        .type-btn.active.q { border-color: var(--q-color); color: var(--q-color); }
-        .type-btn.active.a { border-color: var(--a-color); color: var(--a-color); }
+        .answer-content { padding: 0 20px 20px; color: #475569; border-left: 4px solid var(--primary); margin: 0 20px 20px; }
 
-        /* Unit Grid */
-        .unit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin: 20px auto; max-width: 800px; }
-        .unit-btn { padding: 12px; border: 1px solid #ddd; background: #fff; border-radius: 8px; cursor: pointer; transition: 0.2s; font-weight: 500; }
-        .unit-btn:hover { background: var(--secondary); color: white; border-color: var(--secondary); }
-
-        /* Viewer */
-        .viewer-container { width: 100%; height: 750px; border: 2px solid #ddd; border-radius: 10px; background: #fff; display: none; margin-top: 20px; }
-        iframe { width: 100%; height: 100%; border: none; }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Academic Resource Portal</h1>
+    <header>
+        <h1>PrepMaster <span style="color: var(--primary);">Exam Bank</span></h1>
+        <span class="badge">Academic Session 2026</span>
+    </header>
 
-    <div class="tabs" id="subjectTabs">
-        <button class="tab-btn active" onclick="switchSubject(this, 'finance')">Business Finance</button>
-        <button class="tab-btn" onclick="switchSubject(this, 'working')">Working Capital</button>
-        <button class="tab-btn" onclick="switchSubject(this, 'laws')">Industrial Relations</button>
-        <button class="tab-btn" onclick="switchSubject(this, 'ecomm')">E-Commerce</button>
-        <button class="tab-btn" onclick="switchSubject(this, 'invest')">Investment Mgt</button>
+    <!-- Subject Selection -->
+    <div class="tabs">
+        <button class="tab-btn active" onclick="setSubject('finance')">Business Finance</button>
+        <button class="tab-btn" onclick="setSubject('working')">Working Capital</button>
+        <button class="tab-btn" onclick="setSubject('laws')">Industrial Relations</button>
+        <button class="tab-btn" onclick="setSubject('ecomm')">E-Commerce</button>
+        <button class="tab-btn" onclick="setSubject('invest')">Investment Mgt</button>
     </div>
 
-    <div class="type-toggle">
-        <button class="type-btn q active" onclick="switchType('Q')">Questions</button>
-        <button class="type-btn a" onclick="switchType('A')">Answers</button>
+    <!-- Unit Selection Dots -->
+    <div class="unit-nav" id="unitNav">
+        <!-- Dots generated by JS -->
     </div>
 
-    <hr>
-
-    <div id="unitDisplay">
-        <h3 id="currentSelectionTitle">Business Finance - Questions</h3>
-        <div class="unit-grid" id="unitGrid">
+    <div id="contentArea">
+        <h2 id="currentTitle" style="text-align:center; margin-bottom:20px;">Unit 1: Questions & Answers</h2>
+        
+        <div class="category-container">
+            <!-- 2 Marks Section -->
+            <div class="cat-section">
+                <div class="cat-header v-short-bg">
+                    <span>Very Short Answer Type</span>
+                    <span>2 Marks</span>
+                </div>
+                <div id="section-2">
+                    <!-- Questions added here -->
+                </div>
             </div>
-    </div>
 
-    <div id="viewerBox" class="viewer-container">
-        <iframe id="pdfFrame" src=""></iframe>
+            <!-- 5 Marks Section -->
+            <div class="cat-section">
+                <div class="cat-header short-bg">
+                    <span>Short Answer Type</span>
+                    <span>5 Marks</span>
+                </div>
+                <div id="section-5">
+                    <!-- Questions added here -->
+                </div>
+            </div>
+
+            <!-- 10 Marks Section -->
+            <div class="cat-section">
+                <div class="cat-header long-bg">
+                    <span>Long Answer / Essay Type</span>
+                    <span>10 Marks</span>
+                </div>
+                <div id="section-10">
+                    <!-- Questions added here -->
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 <script>
-    let currentSubject = 'finance';
-    let currentType = 'Q';
+    let currentSub = 'finance';
+    let currentUnit = 1;
 
-    const unitConfig = {
-        'finance': { name: 'Business Finance', units: 5 },
-        'working': { name: 'Working Capital', units: 5 },
-        'laws': { name: 'Industrial Relations', units: 4 },
-        'ecomm': { name: 'E-Commerce', units: 1 },
-        'invest': { name: 'Investment Mgt', units: 1 }
+    const subjects = {
+        finance: { name: "Business Finance", units: 5 },
+        working: { name: "Working Capital", units: 5 },
+        laws: { name: "Industrial Relations", units: 4 },
+        ecomm: { name: "E-Commerce", units: 1 },
+        invest: { name: "Investment Mgt", units: 1 }
     };
 
-    function switchSubject(btn, subKey) {
-        currentSubject = subKey;
-        // Update UI
-        document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
-        btn.classList.add('active');
-        renderUnits();
+    function setSubject(sub) {
+        currentSub = sub;
+        currentUnit = 1;
+        updateUI();
     }
 
-    function switchType(type) {
-        currentType = type;
-        // Update UI
-        document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
-        document.querySelector(`.type-btn.${type.toLowerCase()}`).classList.add('active');
-        renderUnits();
+    function setUnit(u) {
+        currentUnit = u;
+        updateUI();
     }
 
-    function renderUnits() {
-        const grid = document.getElementById('unitGrid');
-        const title = document.getElementById('currentSelectionTitle');
-        const viewer = document.getElementById('viewerBox');
-        
-        viewer.style.display = 'none'; // Hide viewer when changing
-        grid.innerHTML = '';
-        
-        const config = unitConfig[currentSubject];
-        const typeText = currentType === 'Q' ? 'Questions' : 'Answers';
-        title.innerText = `${config.name} - ${typeText}`;
+    function updateUI() {
+        // Update Tabs
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.innerText.toLowerCase().includes(subjects[currentSub].name.toLowerCase()) || (currentSub === 'laws' && btn.innerText.includes('Relations')));
+        });
 
-        for (let i = 1; i <= config.units; i++) {
-            const btn = document.createElement('button');
-            btn.className = 'unit-btn';
-            btn.innerText = `Unit ${i}`;
-            // This is where you would map your specific Google Drive IDs
-            btn.onclick = () => loadPDF(currentSubject, currentType, i);
-            grid.appendChild(btn);
+        // Update Unit Dots
+        const nav = document.getElementById('unitNav');
+        nav.innerHTML = '';
+        for(let i=1; i<=subjects[currentSub].units; i++) {
+            const dot = document.createElement('div');
+            dot.className = `unit-dot ${i === currentUnit ? 'active' : ''}`;
+            dot.innerText = i;
+            dot.onclick = () => setUnit(i);
+            nav.appendChild(dot);
+        }
+
+        document.getElementById('currentTitle').innerText = `${subjects[currentSub].name} - Unit ${currentUnit}`;
+        loadQuestions();
+    }
+
+    function loadQuestions() {
+        // This is where you will add your questions manually in the code
+        const sec2 = document.getElementById('section-2');
+        const sec5 = document.getElementById('section-5');
+        const sec10 = document.getElementById('section-10');
+
+        // Example content for Business Finance Unit 1
+        if(currentSub === 'finance' && currentUnit === 1) {
+            sec2.innerHTML = createQuestion("Define Profit Maximization.", "It is the traditional objective of financial management which focuses on increasing the earnings per share of the company.");
+            sec5.innerHTML = createQuestion("Explain the functions of a Financial Manager.", "The functions include: 1. Estimating capital requirements, 2. Determining capital structure, 3. Investment of funds, 4. Dividend policy decision.");
+            sec10.innerHTML = createQuestion("Profit Maximization vs Wealth Maximization: Discuss.", "Wealth maximization is considered superior because it considers the time value of money and risk factors, whereas profit maximization is vague and ignores the timing of returns.");
+        } else {
+            const placeholder = "<p style='padding:20px; color:#94a3b8;'>Questions for this unit will be added soon...</p>";
+            sec2.innerHTML = placeholder;
+            sec5.innerHTML = placeholder;
+            sec10.innerHTML = placeholder;
         }
     }
 
-    function loadPDF(subject, type, unit) {
-        const viewer = document.getElementById('viewerBox');
-        const frame = document.getElementById('pdfFrame');
-        
-        // Logical naming for your IDs
-        // You will need to create a mapping object here with your real File IDs
-        const fileId = "PASTE_YOUR_FILE_ID_HERE"; 
-        
-        frame.src = `https://drive.google.com/file/d/${fileId}/preview`;
-        viewer.style.display = 'block';
-        viewer.scrollIntoView({ behavior: 'smooth' });
+    function createQuestion(q, a) {
+        return `
+            <details>
+                <summary>${q}</summary>
+                <div class="answer-content">${a}</div>
+            </details>
+        `;
     }
 
-    // Initialize the first view
-    renderUnits();
+    // Initialize
+    updateUI();
 </script>
 
 </body>
