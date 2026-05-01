@@ -8,9 +8,9 @@
         :root {
             --primary: #2563eb;
             --secondary: #3b82f6;
-            --v-short: #8b5cf6; /* 2 Marks */
-            --short: #f59e0b;   /* 5 Marks */
-            --long: #ef4444;    /* 10 Marks */
+            --v-short: #8b5cf6;
+            --short: #f59e0b;
+            --long: #ef4444;
             --bg: #f8fafc;
             --text: #1e293b;
         }
@@ -22,7 +22,6 @@
         h1 { font-size: 2.5rem; color: #0f172a; margin-bottom: 5px; }
         .badge { background: var(--primary); color: white; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; }
 
-        /* Navigation */
         .tabs { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 30px; }
         .tab-btn { padding: 12px 24px; border: none; background: white; color: var(--text); cursor: pointer; border-radius: 12px; font-weight: 600; box-shadow: 0 2px 4px rgba(0,0,0,0.05); transition: 0.3s; }
         .tab-btn.active { background: var(--primary); color: white; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
@@ -32,7 +31,6 @@
         .unit-dot { width: 42px; height: 42px; border-radius: 50%; border: 2px solid #e2e8f0; background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; transition: 0.3s; }
         .unit-dot.active { background: var(--secondary); color: white; border-color: var(--secondary); }
 
-        /* Question Categories */
         .category-container { display: grid; grid-template-columns: 1fr; gap: 25px; }
         .cat-section { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
         .cat-header { padding: 14px 20px; color: white; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
@@ -41,13 +39,17 @@
         .short-bg { background: var(--short); }
         .long-bg { background: var(--long); }
 
-        /* Questions list */
-        .sub-label { padding: 10px 20px; background: #f8fafc; color: #64748b; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; border-bottom: 1px solid #f1f5f9; }
+        .sub-label { padding: 12px 20px; background: #f1f5f9; color: #475569; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; border-bottom: 1px solid #e2e8f0; letter-spacing: 1px; }
         details { border-bottom: 1px solid #f1f5f9; }
         summary { padding: 18px 20px; cursor: pointer; font-weight: 600; list-style: none; display: flex; justify-content: space-between; align-items: center; }
         summary::after { content: '↓'; font-size: 0.8rem; background: #f1f5f9; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: 0.3s; }
         details[open] summary::after { transform: rotate(180deg); }
         .answer-content { padding: 0 20px 20px; color: #475569; border-left: 4px solid var(--primary); margin: 0 20px 20px; font-size: 0.95rem; }
+
+        /* Calculation Box Styling */
+        .calc-box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; font-family: 'Courier New', Courier, monospace; line-height: 1.6; color: #1e293b; margin-top: 10px; }
+        .calc-box b { color: var(--primary); }
+        .divider { border-top: 1px dashed #cbd5e1; margin: 10px 0; }
     </style>
 </head>
 <body>
@@ -134,31 +136,54 @@
         sec1.innerHTML = ''; sec2.innerHTML = ''; sec3.innerHTML = '';
 
         if (currentSub === 'working') {
-            // SPECIAL LAYOUT FOR WORKING CAPITAL
             box2.style.display = 'none';
             box3.style.display = 'none';
             head1.innerHTML = "<span>MASTER QUESTION BANK</span><span>COMPREHENSIVE</span>";
             
             if (currentUnit === 1) {
-                sec1.innerHTML += `<div class="sub-label">Short Answers (2 Marks)</div>`;
-                sec1.innerHTML += createQuestion("Q1: Define Working Capital", "Working capital is the amount of funds required for the day-to-day operations of a business, ensuring that the firm can meet its short-term obligations.");
-                sec1.innerHTML += createQuestion("Q2: State the formula for Net Working Capital", "The formula is: <strong>Net Working Capital = Current Assets - Current Liabilities</strong>");
-                sec1.innerHTML += createQuestion("Q3: What are Current Assets? Give two examples.", "Assets converted into cash within one year. Examples include <strong>Cash</strong> and <strong>Debtors</strong>.");
-                sec1.innerHTML += createQuestion("Q4: What are Current Liabilities? Give two examples.", "Short-term obligations settled within one year. Examples include <strong>Creditors</strong> and <strong>Bills Payable</strong>.");
-                sec1.innerHTML += createQuestion("Q5: Define Gross Working Capital", "Gross Working Capital refers to the total amount of funds invested in the current assets of a business.");
-                sec1.innerHTML += createQuestion("Q19: Distinguish between Gross and Net Working Capital", "Gross is a <strong>quantitative</strong> concept (Total CA), while Net is a <strong>qualitative</strong> concept (CA - CL).");
-                sec1.innerHTML += createQuestion("Q20: Operating Cycle Formula", "<strong>Operating Cycle = R + W + F + D - C</strong>");
-                
-                sec1.innerHTML += `<div class="sub-label">Intermediate (5 Marks)</div>`;
-                sec1.innerHTML += createQuestion("Q12: Significance of Working Capital", "<strong>1. Solvency:</strong> Timely bill payment.<br><strong>2. Production:</strong> Uninterrupted supply.<br><strong>3. Liquidity:</strong> Meets contingencies.");
-                sec1.innerHTML += createQuestion("Q13: Explain Conservative Policy", "Maintaining high current assets relative to sales. Reduces risk but lowers profitability.");
-                
-                sec1.innerHTML += `<div class="sub-label">Long / Hard (10 Marks)</div>`;
-                sec1.innerHTML += createQuestion("Q16: Liquidity–Profitability Trade-off", "There is an inverse relationship: High liquidity increases safety but reduces returns. High profitability increases risk of illiquidity.");
-                sec1.innerHTML += createQuestion("Q36: Comprehensive Operating Cycle Calculation", "<strong>Calculation Result: 84 Days</strong> (30 RM + 24 WIP + 20 FG + 40 Debtors - 30 Creditors).");
+                sec1.innerHTML += `<div class="sub-label">Short Theory (2 Marks)</div>`;
+                sec1.innerHTML += createQuestion("Q1: Define Working Capital", "Funds required for day-to-day operations to ensure short-term obligations are met.");
+                sec1.innerHTML += createQuestion("Q2: Net Working Capital Formula", "<b>Formula:</b> Current Assets - Current Liabilities");
+                sec1.innerHTML += createQuestion("Q20: Operating Cycle Formula", "<b>Formula:</b> R + W + F + D - C <br><small>(Raw Material + WIP + Finished Goods + Debtors - Creditors period)</small>");
+
+                sec1.innerHTML += `<div class="sub-label">Practical Numericals (Calculations)</div>`;
+
+                sec1.innerHTML += createQuestion("Q14: Percentage Sales Method (5 Marks)", `
+                    <div class="calc-box">
+                        Expected Sales = ₹8,00,000<br>
+                        WC % = 25% of Sales<br>
+                        <div class="divider"></div>
+                        Calculation: 8,00,000 × (25/100)<br>
+                        <b>Result: ₹2,00,000</b>
+                    </div>
+                `);
+
+                sec1.innerHTML += createQuestion("Q36: Comprehensive Operating Cycle (10 Marks)", `
+                    <div class="calc-box">
+                        1. RM Period: (60k / (7.2L/360)) = <b>30 Days</b><br>
+                        2. WIP Period: (40k / (6L/360)) = <b>24 Days</b><br>
+                        3. FG Period: (50k / (9L/360)) = <b>20 Days</b><br>
+                        4. Debtors Collection: <b>40 Days</b><br>
+                        5. Creditors Payment: <b>(30) Days</b><br>
+                        <div class="divider"></div>
+                        Total: 30 + 24 + 20 + 40 - 30 = <b>84 Days</b>
+                    </div>
+                `);
+
+                sec1.innerHTML += createQuestion("Q38: Weighted Average Duration", `
+                    <div class="calc-box">
+                        Total Investment: ₹3,00,000<br>
+                        <div class="divider"></div>
+                        Weighted RM: (70k/3L) × 35 = 8.17<br>
+                        Weighted WIP: (50k/3L) × 20 = 3.33<br>
+                        Weighted FG: (80k/3L) × 25 = 6.67<br>
+                        Weighted Debtors: (1L/3L) × 45 = 15.00<br>
+                        <div class="divider"></div>
+                        <b>Weighted Cycle = 33.17 Days</b>
+                    </div>
+                `);
             }
         } else {
-            // RESTORE 3-BOX LAYOUT FOR OTHER SUBJECTS
             box2.style.display = 'block';
             box3.style.display = 'block';
             head1.innerHTML = "<span>VERY SHORT ANSWER</span><span>2 MARKS</span>";
