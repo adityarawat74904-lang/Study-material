@@ -11,47 +11,43 @@
             --v-short: #8b5cf6; /* 2 Marks */
             --short: #f59e0b;   /* 5 Marks */
             --long: #ef4444;    /* 10 Marks */
-            --bg: #f1f5f9;
+            --bg: #f8fafc;
             --text: #1e293b;
         }
 
-        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; line-height: 1.6; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; line-height: 1.6; }
         .container { max-width: 1000px; margin: 40px auto; padding: 20px; }
 
-        /* Header */
         header { text-align: center; margin-bottom: 40px; }
-        h1 { font-size: 2.5rem; color: #0f172a; margin-bottom: 10px; }
-        .badge { background: var(--primary); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; }
+        h1 { font-size: 2.5rem; color: #0f172a; margin-bottom: 5px; }
+        .badge { background: var(--primary); color: white; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; }
 
-        /* Subject Navigation */
+        /* Navigation */
         .tabs { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 30px; }
         .tab-btn { padding: 12px 24px; border: none; background: white; color: var(--text); cursor: pointer; border-radius: 12px; font-weight: 600; box-shadow: 0 2px 4px rgba(0,0,0,0.05); transition: 0.3s; }
-        .tab-btn.active { background: var(--primary); color: white; transform: translateY(-2px); }
+        .tab-btn.active { background: var(--primary); color: white; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
 
-        /* Unit Selection */
-        .unit-nav { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; }
-        .unit-dot { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #cbd5e1; background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; transition: 0.3s; }
+        .unit-nav-wrapper { text-align: center; margin-bottom: 35px; }
+        .unit-nav { display: flex; justify-content: center; gap: 12px; }
+        .unit-dot { width: 42px; height: 42px; border-radius: 50%; border: 2px solid #e2e8f0; background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; transition: 0.3s; }
         .unit-dot.active { background: var(--secondary); color: white; border-color: var(--secondary); }
 
         /* Question Categories */
-        .category-container { display: grid; grid-template-columns: 1fr; gap: 20px; animation: slideUp 0.4s ease; }
+        .category-container { display: grid; grid-template-columns: 1fr; gap: 25px; }
+        .cat-section { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+        .cat-header { padding: 14px 20px; color: white; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
         
-        .cat-section { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-        .cat-header { padding: 15px 20px; color: white; font-weight: bold; display: flex; justify-content: space-between; }
         .v-short-bg { background: var(--v-short); }
         .short-bg { background: var(--short); }
         .long-bg { background: var(--long); }
 
-        /* Collapsible Questions */
+        /* Questions list */
+        .sub-label { padding: 10px 20px; background: #f8fafc; color: #64748b; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; border-bottom: 1px solid #f1f5f9; }
         details { border-bottom: 1px solid #f1f5f9; }
-        summary { padding: 15px 20px; cursor: pointer; font-weight: 500; list-style: none; display: flex; justify-content: space-between; }
-        summary::after { content: '＋'; color: #94a3b8; }
-        details[open] summary::after { content: '－'; }
-        details[open] { background: #fafafa; }
-
-        .answer-content { padding: 0 20px 20px; color: #475569; border-left: 4px solid var(--primary); margin: 0 20px 20px; }
-
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        summary { padding: 18px 20px; cursor: pointer; font-weight: 600; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+        summary::after { content: '↓'; font-size: 0.8rem; background: #f1f5f9; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: 0.3s; }
+        details[open] summary::after { transform: rotate(180deg); }
+        .answer-content { padding: 0 20px 20px; color: #475569; border-left: 4px solid var(--primary); margin: 0 20px 20px; font-size: 0.95rem; }
     </style>
 </head>
 <body>
@@ -59,10 +55,9 @@
 <div class="container">
     <header>
         <h1>PrepMaster <span style="color: var(--primary);">Exam Bank</span></h1>
-        <span class="badge">Academic Session 2026</span>
+        <span class="badge">B.A. Economics / Commerce Hub</span>
     </header>
 
-    <!-- Subject Selection -->
     <div class="tabs">
         <button class="tab-btn active" onclick="setSubject('finance')">Business Finance</button>
         <button class="tab-btn" onclick="setSubject('working')">Working Capital</button>
@@ -71,46 +66,24 @@
         <button class="tab-btn" onclick="setSubject('invest')">Investment Mgt</button>
     </div>
 
-    <!-- Unit Selection Dots -->
-    <div class="unit-nav" id="unitNav">
-        <!-- Dots generated by JS -->
+    <div class="unit-nav-wrapper">
+        <div class="unit-nav" id="unitNav"></div>
     </div>
 
     <div id="contentArea">
-        <h2 id="currentTitle" style="text-align:center; margin-bottom:20px;">Unit 1: Questions & Answers</h2>
-        
+        <h2 id="currentTitle" style="text-align:center; margin-bottom:25px; color: var(--primary);">Unit 1 Resources</h2>
         <div class="category-container">
-            <!-- 2 Marks Section -->
-            <div class="cat-section">
-                <div class="cat-header v-short-bg">
-                    <span>Very Short Answer Type</span>
-                    <span>2 Marks</span>
-                </div>
-                <div id="section-2">
-                    <!-- Questions added here -->
-                </div>
+            <div class="cat-section" id="box1">
+                <div class="cat-header v-short-bg" id="header1"><span>VERY SHORT ANSWER</span><span>2 MARKS</span></div>
+                <div id="section-1" class="q-list"></div>
             </div>
-
-            <!-- 5 Marks Section -->
-            <div class="cat-section">
-                <div class="cat-header short-bg">
-                    <span>Short Answer Type</span>
-                    <span>5 Marks</span>
-                </div>
-                <div id="section-5">
-                    <!-- Questions added here -->
-                </div>
+            <div class="cat-section" id="box2">
+                <div class="cat-header short-bg" id="header2"><span>SHORT ANSWER</span><span>5 MARKS</span></div>
+                <div id="section-2" class="q-list"></div>
             </div>
-
-            <!-- 10 Marks Section -->
-            <div class="cat-section">
-                <div class="cat-header long-bg">
-                    <span>Long Answer / Essay Type</span>
-                    <span>10 Marks</span>
-                </div>
-                <div id="section-10">
-                    <!-- Questions added here -->
-                </div>
+            <div class="cat-section" id="box3">
+                <div class="cat-header long-bg" id="header3"><span>LONG ANSWER</span><span>10 MARKS</span></div>
+                <div id="section-3" class="q-list"></div>
             </div>
         </div>
     </div>
@@ -121,31 +94,21 @@
     let currentUnit = 1;
 
     const subjects = {
-        finance: { name: "Business Finance", units: 5 },
-        working: { name: "Working Capital", units: 5 },
-        laws: { name: "Industrial Relations", units: 4 },
-        ecomm: { name: "E-Commerce", units: 1 },
-        invest: { name: "Investment Mgt", units: 1 }
+        finance: { name: "Basic Business Finance", units: 5 },
+        working: { name: "Working Capital Management", units: 5 },
+        laws: { name: "Industrial Relation & Employment Laws", units: 4 },
+        ecomm: { name: "E-Commerce", units: 5 },
+        invest: { name: "Investment Management", units: 4 }
     };
 
-    function setSubject(sub) {
-        currentSub = sub;
-        currentUnit = 1;
-        updateUI();
-    }
-
-    function setUnit(u) {
-        currentUnit = u;
-        updateUI();
-    }
+    function setSubject(sub) { currentSub = sub; currentUnit = 1; updateUI(); }
+    function setUnit(u) { currentUnit = u; updateUI(); }
 
     function updateUI() {
-        // Update Tabs
         document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.classList.toggle('active', btn.innerText.toLowerCase().includes(subjects[currentSub].name.toLowerCase()) || (currentSub === 'laws' && btn.innerText.includes('Relations')));
+            btn.classList.toggle('active', subjects[currentSub].name.toLowerCase().includes(btn.innerText.toLowerCase()) || (currentSub==='laws' && btn.innerText.includes('Relations')));
         });
 
-        // Update Unit Dots
         const nav = document.getElementById('unitNav');
         nav.innerHTML = '';
         for(let i=1; i<=subjects[currentSub].units; i++) {
@@ -156,41 +119,58 @@
             nav.appendChild(dot);
         }
 
-        document.getElementById('currentTitle').innerText = `${subjects[currentSub].name} - Unit ${currentUnit}`;
+        document.getElementById('currentTitle').innerText = `${subjects[currentSub].name} — Unit ${currentUnit}`;
         loadQuestions();
     }
 
     function loadQuestions() {
-        // This is where you will add your questions manually in the code
+        const sec1 = document.getElementById('section-1');
         const sec2 = document.getElementById('section-2');
-        const sec5 = document.getElementById('section-5');
-        const sec10 = document.getElementById('section-10');
+        const sec3 = document.getElementById('section-3');
+        const box2 = document.getElementById('box2');
+        const box3 = document.getElementById('box3');
+        const head1 = document.getElementById('header1');
 
-        // Example content for Business Finance Unit 1
-        if(currentSub === 'finance' && currentUnit === 1) {
-            sec2.innerHTML = createQuestion("Define Profit Maximization.", "It is the traditional objective of financial management which focuses on increasing the earnings per share of the company.");
-            sec5.innerHTML = createQuestion("Explain the functions of a Financial Manager.", "The functions include: 1. Estimating capital requirements, 2. Determining capital structure, 3. Investment of funds, 4. Dividend policy decision.");
-            sec10.innerHTML = createQuestion("Profit Maximization vs Wealth Maximization: Discuss.", "Wealth maximization is considered superior because it considers the time value of money and risk factors, whereas profit maximization is vague and ignores the timing of returns.");
+        sec1.innerHTML = ''; sec2.innerHTML = ''; sec3.innerHTML = '';
+
+        if (currentSub === 'working') {
+            // SPECIAL LAYOUT FOR WORKING CAPITAL
+            box2.style.display = 'none';
+            box3.style.display = 'none';
+            head1.innerHTML = "<span>MASTER QUESTION BANK</span><span>COMPREHENSIVE</span>";
+            
+            if (currentUnit === 1) {
+                sec1.innerHTML += `<div class="sub-label">Short Answers (2 Marks)</div>`;
+                sec1.innerHTML += createQuestion("Q1: Define Working Capital", "Working capital is the amount of funds required for the day-to-day operations of a business, ensuring that the firm can meet its short-term obligations.");
+                sec1.innerHTML += createQuestion("Q2: State the formula for Net Working Capital", "The formula is: <strong>Net Working Capital = Current Assets - Current Liabilities</strong>");
+                sec1.innerHTML += createQuestion("Q3: What are Current Assets? Give two examples.", "Assets converted into cash within one year. Examples include <strong>Cash</strong> and <strong>Debtors</strong>.");
+                sec1.innerHTML += createQuestion("Q4: What are Current Liabilities? Give two examples.", "Short-term obligations settled within one year. Examples include <strong>Creditors</strong> and <strong>Bills Payable</strong>.");
+                sec1.innerHTML += createQuestion("Q5: Define Gross Working Capital", "Gross Working Capital refers to the total amount of funds invested in the current assets of a business.");
+                sec1.innerHTML += createQuestion("Q19: Distinguish between Gross and Net Working Capital", "Gross is a <strong>quantitative</strong> concept (Total CA), while Net is a <strong>qualitative</strong> concept (CA - CL).");
+                sec1.innerHTML += createQuestion("Q20: Operating Cycle Formula", "<strong>Operating Cycle = R + W + F + D - C</strong>");
+                
+                sec1.innerHTML += `<div class="sub-label">Intermediate (5 Marks)</div>`;
+                sec1.innerHTML += createQuestion("Q12: Significance of Working Capital", "<strong>1. Solvency:</strong> Timely bill payment.<br><strong>2. Production:</strong> Uninterrupted supply.<br><strong>3. Liquidity:</strong> Meets contingencies.");
+                sec1.innerHTML += createQuestion("Q13: Explain Conservative Policy", "Maintaining high current assets relative to sales. Reduces risk but lowers profitability.");
+                
+                sec1.innerHTML += `<div class="sub-label">Long / Hard (10 Marks)</div>`;
+                sec1.innerHTML += createQuestion("Q16: Liquidity–Profitability Trade-off", "There is an inverse relationship: High liquidity increases safety but reduces returns. High profitability increases risk of illiquidity.");
+                sec1.innerHTML += createQuestion("Q36: Comprehensive Operating Cycle Calculation", "<strong>Calculation Result: 84 Days</strong> (30 RM + 24 WIP + 20 FG + 40 Debtors - 30 Creditors).");
+            }
         } else {
-            const placeholder = "<p style='padding:20px; color:#94a3b8;'>Questions for this unit will be added soon...</p>";
-            sec2.innerHTML = placeholder;
-            sec5.innerHTML = placeholder;
-            sec10.innerHTML = placeholder;
+            // RESTORE 3-BOX LAYOUT FOR OTHER SUBJECTS
+            box2.style.display = 'block';
+            box3.style.display = 'block';
+            head1.innerHTML = "<span>VERY SHORT ANSWER</span><span>2 MARKS</span>";
+            sec1.innerHTML = "<p style='padding:20px; color:#94a3b8;'>Add questions for " + subjects[currentSub].name + " here.</p>";
         }
     }
 
     function createQuestion(q, a) {
-        return `
-            <details>
-                <summary>${q}</summary>
-                <div class="answer-content">${a}</div>
-            </details>
-        `;
+        return `<details><summary>${q}</summary><div class="answer-content">${a}</div></details>`;
     }
 
-    // Initialize
     updateUI();
 </script>
-
 </body>
 </html>
